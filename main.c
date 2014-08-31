@@ -1,12 +1,12 @@
 #include <stdio.h>
+
 #import "block-list.c"
 #import "prime-gen.c"
 
 #define MEGABYTE 1048576 // IEC mebibyte, JEDEC megabyte
 
-int bl_prime_gen(block_list *bl, int n) {
+int bl_prime_gen(block_list *bl, int n, const size_t mem_size) {
 	// generate primes
-	const size_t mem_size = MEGABYTE;
 	int *prime = malloc(mem_size * sizeof (int));
 	if (prime == NULL){return 1;}
 
@@ -43,10 +43,11 @@ int bl_prime_gen(block_list *bl, int n) {
 
 int main() {
 	const size_t mem_size = MEGABYTE;
-	block_list *bl = bl_init(sizeof (int) * (512 * mem_size));
+	size_t block_size = (512 * mem_size);
+	block_list *bl = bl_init(sizeof (int) * block_size);
 	if (bl == NULL){fprintf(stderr, "main: Memory allocation failure.\n"); return 1;}
 	// TODO: implement resizing (appending and shrinking) of linked-blocks.
-	int prime_max = 20000000;
-	if (bl_prime_gen(bl, prime_max)) {fprintf(stderr, "bl_prime_gen: Memory allocation failure.\n"); return 1;}
+	int prime_max = 2000000000;
+	if (bl_prime_gen(bl, prime_max, block_size)) {fprintf(stderr, "bl_prime_gen: Memory allocation failure.\n"); return 1;}
 	bl_print_int(bl);
 }

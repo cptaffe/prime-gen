@@ -5,7 +5,7 @@ void prime_gen(int *sieve, int max, int min) {
 	fprintf(stderr, "max: %d, min: %d, addr: %p\n", max, min, sieve);
 	fflush(stdout);
 	//Create the various different variables required
-	int root = ceil(sqrt(max));
+	int root = (int) ceil(sqrt((double) max));
 	const int sieve_size = max - (min - 1);
 
 	for (int i = 0; i < sieve_size; i++) {
